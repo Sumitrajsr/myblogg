@@ -4,6 +4,7 @@ import com.myblogg.payload.PostDto;
 import com.myblogg.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,9 @@ public class PostController {
         this.postService = postService;
     }
 
+
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<PostDto> createPost(@RequestBody PostDto postDto) {
         PostDto dto = postService.createPost(postDto);
@@ -31,6 +35,12 @@ public class PostController {
         return new ResponseEntity<>(dto,HttpStatus.OK);
 
     }
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deletePost(@PathVariable long id){
+        postService.deleteComment(id);
+        return new ResponseEntity<>("Post is deleted",HttpStatus.OK);
+
+    }
     //http://localhost:8080/api/posts?pageNo=0&pageSize=3
 //    @GetMapping
 //    public List<PostDto> getAllPosts(
@@ -40,6 +50,7 @@ public class PostController {
 //        List<PostDto> postDtos= postService.getAllPosts(pageNo,pageSize);
 //        return  postDtos;
 //
+
 //    }
     //http://localhost:8080/api/posts?pageNo=0&pageSize=3&sortBy=title
     @GetMapping

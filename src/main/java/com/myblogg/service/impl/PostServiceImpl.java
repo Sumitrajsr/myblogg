@@ -62,7 +62,12 @@ public class PostServiceImpl implements PostService {
         List<PostDto> dtos =  posts.stream().map(post -> mapToDto(post)).collect(Collectors.toList());
         return dtos;
     }
-    
+
+    @Override
+    public void deleteComment(long id) {
+        postRepository.deleteById(id);
+    }
+
     PostDto mapToDto(Post post){
         PostDto dto = modelMapper.map(post, PostDto.class);
 //        PostDto dto=new PostDto();
