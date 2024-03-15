@@ -16,6 +16,7 @@ public class MybloggApplication {
 	}
 	@Bean
 	public ModelMapper fetModelMapper(){
+
 		return new ModelMapper();
 	}
 //	@Bean
